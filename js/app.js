@@ -119,7 +119,7 @@ createApp({
 
             // Add layer control to the map to allow users to switch between different tile layers.
             // The 'collapsed: false' option ensures that the control is always visible.
-            L.control.layers(baseMapsNamed, null, { collapsed: false, position: 'bottomleft' }).addTo(this.map);
+            L.control.layers(baseMapsNamed, null, { collapsed: true, position: 'bottomleft' }).addTo(this.map);
 
             // Initialize the Leaflet popup instance for displaying route information.
             this.infowindow = L.popup();

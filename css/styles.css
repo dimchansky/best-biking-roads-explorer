@@ -86,42 +86,23 @@
     z-index: 1003;
 }
 
-/* Responsive Modal Styling */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        border-radius: 0;
-        margin: 0;
-        padding: 20px;
-    }
-
-    .slider-labels {
-        font-size: 1.2rem;
-    }
-}
-
-/* Prevent mobile browsers from zooming by ensuring input elements have at least 16px font size */
-input, select, textarea, button {
-    font-size: 16px;
-}
-
-/* Fix the filter section at the top */
-.filter-section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10000; /* Ensure it's above other elements */
-    background-color: rgba(0, 0, 0, 0.8); /* Optional: Add a background for better visibility */
-    padding: 10px 0; /* Optional: Adjust padding as needed */
-}
-
-/* Adjust map container to prevent overlap with fixed filter section */
+/* Responsive Map Container */
 .map-container {
-    margin-top: 60px; /* Adjust based on the actual height of the filter section */
-    height: calc(100vh - 60px); /* Ensure the map fills the remaining viewport */
+    height: calc(100vh - 90px); /* Base height adjusted for the filter menu */
+    overflow: hidden; /* Prevents overflow of content outside the container */
+    position: relative; /* Ensure the map stays correctly layered */
+}
+
+@media (max-width: 768px) {
+    .map-container {
+        height: calc(100vh - 350px); /* Slightly reduce height for smaller screens */
+    }
+}
+
+/* Ensure the Apply Button is Always Clickable */
+.modal-actions .btn-primary {
+    position: relative;
+    z-index: 1003;
 }
 
 /* Optional: Enhance the appearance of checkboxes */
