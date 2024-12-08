@@ -5,7 +5,7 @@ const { createApp } = Vue;
 // Define the maximum rating as a constant
 const MAX_RATING = 5;
 
-createApp({
+const app = createApp({
     data() {
         return {
             // Hierarchical structure: Country -> Road Type -> Routes
@@ -421,10 +421,7 @@ createApp({
             } else if (type === 'rating') {
                 // Initialize tempRatingRange with current min and max ratings.
                 this.tempRatingRange = [...this.filters.ratingRange];
-                // Initialize the rating slider after the DOM updates.
-                this.$nextTick(() => {
-                    this.initializeRatingSlider();
-                });
+                // No need to initialize a slider manually; v-model handles it
             }
 
             // Reset the search query to clear any previous searches.
@@ -442,13 +439,13 @@ createApp({
 
         /**
          * Clears the current selections within the modal.
-         * - For 'rating' modal: No action since 'Clear' button is removed.
+         * - For 'rating' modal: Resets the rating range to default.
          * - For other modals: Clears all selected options.
          */
         clearModalSelection() {
             if (this.modalType === 'rating') {
-                // No action needed as 'Clear' button is removed for rating filter
-                return;
+                // Reset rating range to default
+                this.resetRatingRange();
             } else {
                 // Clear all selected values.
                 this.tempSelectedValues = [];
@@ -470,7 +467,7 @@ createApp({
          */
         resetRatingRange() {
             this.tempRatingRange = [...this.defaultRatingRange];
-            this.updateRatingSlider();
+            // No need to update the slider manually; v-model handles it
         },
 
         /**
@@ -522,61 +519,6 @@ createApp({
         },
 
         /**
-         * Initializes the noUiSlider for the rating filter modal.
-         * Sets up the slider with current tempRatingRange and configures its appearance and behavior.
-         */
-        initializeRatingSlider() {
-            const slider = document.getElementById('rating-slider');
-
-            if (slider && !slider.noUiSlider) {
-                noUiSlider.create(slider, {
-                    start: this.tempRatingRange, // Initial slider range [min, max]
-                    connect: true, // Display a colored bar between the handles
-                    range: {
-                        'min': this.defaultRatingRange[0],
-                        'max': this.defaultRatingRange[1]
-                    },
-                    step: 0.1, // Slider increments
-                    tooltips: [true, true], // Show tooltips on both handles
-                    format: {
-                        to: function (value) {
-                            return value.toFixed(1); // Format slider values to one decimal place
-                        },
-                        from: function (value) {
-                            return Number(value); // Parse slider values as numbers
-                        }
-                    },
-                    pips: {
-                        mode: 'values', // Show pips at specific values
-                        values: [1, 2, 3, 4, 5], // Positions of pips
-                        density: 100, // Controls the spacing between pips
-                        format: {
-                            to: function (value) {
-                                return value.toFixed(1); // Label pips with one decimal place
-                            }
-                        }
-                    }
-                });
-
-                // Update the tempRatingRange when the slider is moved.
-                slider.noUiSlider.on('update', (values) => {
-                    this.tempRatingRange = values.map(v => parseFloat(v));
-                });
-            }
-        },
-
-        /**
-         * Updates the noUiSlider's handles to reflect the current tempRatingRange.
-         * Useful for resetting the slider to default values or programmatically changing the range.
-         */
-        updateRatingSlider() {
-            const slider = document.getElementById('rating-slider');
-            if (slider && slider.noUiSlider) {
-                slider.noUiSlider.set(this.tempRatingRange);
-            }
-        },
-
-        /**
          * Compares two arrays for equality.
          * @param {Array} arr1
          * @param {Array} arr2
@@ -625,4 +567,10 @@ createApp({
         this.initMap();
         this.fetchAllData();
     }
-}).mount('#app');
+});
+
+// Register the Slider component globally
+app.component('Slider', window.VueformSlider);
+
+// Mount the Vue app
+app.mount('#app');

@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="" />
-    <!-- noUiSlider CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.css" rel="stylesheet">
+    <!-- Add Vueform Slider CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@vueform/slider@2.1.10/themes/default.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -60,10 +60,18 @@
                 <button @click="closeModal" aria-label="Close Modal" class="close-button">&times;</button>
             </div>
             <div class="modal-body">
-                <!-- Rating Filter with noUiSlider -->
+                <!-- Rating Filter with Vueform Slider -->
                 <div v-if="modalType === 'rating'">
-                    <div id="rating-slider"></div>
-                    <div class="slider-labels">
+                    <Slider
+                            v-model="tempRatingRange"
+                            :min="1"
+                            :max="5"
+                            :step="0.1"
+                            :range="true"
+                            :format="{ decimals: 1 }"
+                            label="Rating Range"
+                    ></Slider>
+                    <div class="slider-labels mt-2">
                         <span>Min: {{ tempRatingRange[0].toFixed(1) }}</span>
                         <span>Max: {{ tempRatingRange[1].toFixed(1) }}</span>
                     </div>
@@ -134,9 +142,9 @@
 <!-- Polyline Decoding Library -->
 <script src="https://unpkg.com/@mapbox/polyline@1.2.1/src/polyline.js"></script>
 <!-- Vue.js -->
-<script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
-<!-- noUiSlider JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.js"></script>
+<script src="https://unpkg.com/vue@3.5.13/dist/vue.global.js"></script>
+<!-- Add Vueform Slider JS -->
+<script src="https://unpkg.com/@vueform/slider@2.1.10/dist/slider.global.js"></script>
 <!-- Constants JS -->
 <script src="js/constants.js"></script>
 <!-- GPX Export JS -->
