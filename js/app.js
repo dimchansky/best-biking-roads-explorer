@@ -86,7 +86,12 @@ createApp({
          */
         initMap() {
             // Initialize the map centered at latitude 20, longitude 0 with zoom level 2.
-            this.map = L.map('map').setView([20, 0], 2);
+            this.map = L.map('map', {zoomControl: false}).setView([20, 0], 2);
+
+            // Add zoom controls at the bottom right
+            L.control.zoom({
+                position: 'bottomright'
+            }).addTo(this.map);
 
             // Access tile layer configurations from constants.js.
             const tileLayerConfigs = window.APP_CONSTANTS.tileLayers;
@@ -114,7 +119,7 @@ createApp({
 
             // Add layer control to the map to allow users to switch between different tile layers.
             // The 'collapsed: false' option ensures that the control is always visible.
-            L.control.layers(baseMapsNamed, null, { collapsed: false }).addTo(this.map);
+            L.control.layers(baseMapsNamed, null, { collapsed: false, position: 'bottomleft' }).addTo(this.map);
 
             // Initialize the Leaflet popup instance for displaying route information.
             this.infowindow = L.popup();

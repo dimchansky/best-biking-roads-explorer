@@ -86,15 +86,42 @@
     z-index: 1003;
 }
 
-/* Responsive Map Container */
-.map-container {
-    height: calc(100vh - 60px); /* Adjust based on filter section height */
+/* Responsive Modal Styling */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .slider-labels {
+        font-size: 1.2rem;
+    }
 }
 
-/* Ensure the Apply Button is Always Clickable */
-.modal-actions .btn-primary {
-    position: relative;
-    z-index: 1003;
+/* Prevent mobile browsers from zooming by ensuring input elements have at least 16px font size */
+input, select, textarea, button {
+    font-size: 16px;
+}
+
+/* Fix the filter section at the top */
+.filter-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000; /* Ensure it's above other elements */
+    background-color: rgba(0, 0, 0, 0.8); /* Optional: Add a background for better visibility */
+    padding: 10px 0; /* Optional: Adjust padding as needed */
+}
+
+/* Adjust map container to prevent overlap with fixed filter section */
+.map-container {
+    margin-top: 60px; /* Adjust based on the actual height of the filter section */
+    height: calc(100vh - 60px); /* Ensure the map fills the remaining viewport */
 }
 
 /* Optional: Enhance the appearance of checkboxes */
