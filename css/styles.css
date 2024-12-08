@@ -1,0 +1,103 @@
+/* css/styles.css */
+
+/* Modal Overlay Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.visible {
+    display: flex;
+}
+
+/* Modal Content Styling */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1001; /* Above the overlay */
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+
+/* Close Button Styling */
+.close-button {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Slider Container Adjustments */
+#rating-slider {
+    margin-bottom: 20px; /* Add space below the slider */
+}
+
+/* Slider Labels Styling - Targeted Adjustments */
+.modal-content .modal-body .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #555;
+    position: relative;
+    z-index: 1001;
+}
+
+/* Adjust the Slider and Labels Container */
+.modal-content .modal-body > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Prevent noUiSlider Tooltips from Blocking Clicks */
+.noUi-tooltip {
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 999; /* Below slider labels */
+}
+
+/* Adjust noUiSlider Pips */
+.noUi-pips {
+    z-index: 998;
+}
+
+/* Modal Actions Styling */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    position: relative;
+    z-index: 1002; /* Above noUiSlider elements */
+}
+
+/* Ensure Buttons are Above Slider Elements */
+.modal-actions button {
+    z-index: 1003;
+}
+
+/* Responsive Map Container */
+.map-container {
+    height: calc(100vh - 60px); /* Adjust based on filter section height */
+}
+
+/* Ensure the Apply Button is Always Clickable */
+.modal-actions .btn-primary {
+    position: relative;
+    z-index: 1003;
+}
+
+/* Optional: Enhance the appearance of checkboxes */
+.form-check-input:checked ~ .form-check-label {
+    color: #007bff;
+}
