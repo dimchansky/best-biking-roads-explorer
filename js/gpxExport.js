@@ -68,7 +68,7 @@ window.exportToGPX = function(filteredRoutes) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'filtered_routes.gpx';
+    a.download = 'best_biking_routes.gpx';
     a.click();
 
     // Clean up the object URL

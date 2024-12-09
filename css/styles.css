@@ -1,4 +1,12 @@
-/* css/styles.css */
+/* Reset body and HTML margins to ensure no unexpected offsets */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevent unnecessary scrolling */
+}
+
 
 /* Modal Overlay Styling */
 .modal-overlay {
@@ -11,7 +19,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 2000; /* Ensure it appears above the navbar */
 }
 
 .modal-overlay.visible {
@@ -26,8 +34,10 @@
     width: 90%;
     max-width: 500px;
     position: relative;
-    z-index: 1001; /* Above the overlay */
-    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    z-index: 2001; /* Above the modal overlay */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-height: 90vh; /* Ensure modal fits within the screen */
+    overflow-y: auto; /* Allow scrolling if content is too long */
 }
 
 /* Close Button Styling */
@@ -36,22 +46,10 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-}
-
-/* Slider Container Adjustments */
-#rating-slider {
-    margin-bottom: 20px; /* Add space below the slider */
-}
-
-/* Slider Labels Styling - Targeted Adjustments */
-.modal-content .modal-body .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    font-size: 1rem;
-    color: #555;
-    position: relative;
-    z-index: 1001;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2002; /* Ensure it stays above the modal content */
 }
 
 /* Adjust the Slider and Labels Container */
@@ -61,51 +59,40 @@
     align-items: stretch;
 }
 
-/* Prevent noUiSlider Tooltips from Blocking Clicks */
-.noUi-tooltip {
-    pointer-events: none; /* Allows clicks to pass through */
-    z-index: 999; /* Below slider labels */
-}
-
-/* Adjust noUiSlider Pips */
-.noUi-pips {
-    z-index: 998;
-}
-
 /* Modal Actions Styling */
 .modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     position: relative;
-    z-index: 1002; /* Above noUiSlider elements */
+    z-index: 2002; /* Above modal content but below the overlay */
 }
 
 /* Ensure Buttons are Above Slider Elements */
 .modal-actions button {
-    z-index: 1003;
+    z-index: 2003;
 }
 
-/* Responsive Map Container */
+/* Map Container Styling */
 .map-container {
-    height: calc(100vh - 90px); /* Base height adjusted for the filter menu */
-    overflow: hidden; /* Prevents overflow of content outside the container */
-    position: relative; /* Ensure the map stays correctly layered */
+    position: absolute;
+    top: 56px; /* Height of the navbar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 56px); /* Deduct navbar height */
 }
 
 @media (max-width: 768px) {
     .map-container {
-        height: calc(100vh - 350px); /* Slightly reduce height for smaller screens */
+        height: calc(100vh - 136px); /* Slightly reduce height for smaller screens */
     }
 }
 
-/* Ensure the Apply Button is Always Clickable */
-.modal-actions .btn-primary {
+/* Navbar Styling */
+.navbar {
+    z-index: 1050; /* Above other elements */
     position: relative;
-    z-index: 1003;
-}
-
-/* Optional: Enhance the appearance of checkboxes */
-.form-check-input:checked ~ .form-check-label {
-    color: #007bff;
+    width: 100%;
 }

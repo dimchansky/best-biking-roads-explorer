@@ -1,8 +1,8 @@
-# Best Motorcycling Roads Explorer
+# Best Biking Roads Explorer
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://dimchansky.github.io/best-biking-roads-explorer/)
 
-**Best Motorcycling Roads Explorer** is a user-friendly web application designed to help motorcycling enthusiasts discover and navigate the most interesting motorcycling routes. By allowing users to filter roads by country, type, and rating, this application simplifies the process of finding the perfect motorcycling path tailored to individual preferences. Additionally, it offers the functionality to export filtered routes to GPX format, enabling seamless integration with navigation apps like OsmAnd for on-the-go routing.
+**Best Biking Roads Explorer** is a user-friendly web application designed to help motorcycling enthusiasts discover and navigate the most interesting motorcycling routes. By allowing users to filter roads by country, type, and rating, this application simplifies the process of finding the perfect motorcycling path tailored to individual preferences. Additionally, it offers the functionality to export filtered routes to GPX format, enabling seamless integration with navigation apps like OsmAnd for on-the-go routing.
 
 [**Access the Live App Here**](https://dimchansky.github.io/best-biking-roads-explorer/)
 

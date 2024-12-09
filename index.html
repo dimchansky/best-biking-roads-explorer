@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Best Biking Roads Map</title>
+    <title>Best Biking Roads Explorer</title>
     <!-- Viewport Meta Tag for Responsive Design -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- Bootstrap CSS -->
@@ -22,31 +22,50 @@
 <body>
 <div id="app">
     <!-- Filter Section -->
-    <nav class="filter-section bg-dark py-2">
-        <div class="row w-100 m-0 align-items-center">
-            <!-- Header -->
-            <div class="col-md-2">
-                <h5 class="text-white m-0">Best Biking Routes</h5>
-            </div>
-            <!-- Country Filter -->
-            <div class="col-md-2 filter-group">
-                <label class="text-white">Filter by Country</label>
-                <button class="btn btn-sm btn-primary w-100" @click="openModal('country')">Select Country</button>
-            </div>
-            <!-- Road Type Filter -->
-            <div class="col-md-2 filter-group">
-                <label class="text-white">Filter by Road Type</label>
-                <button class="btn btn-sm btn-primary w-100" @click="openModal('roadType')">Select Road Type</button>
-            </div>
-            <!-- Rating Filter -->
-            <div class="col-md-2 filter-group">
-                <label class="text-white">Filter by Rating</label>
-                <button class="btn btn-sm btn-primary w-100" @click="openModal('rating')">Select Rating</button>
-            </div>
-            <!-- Export Button -->
-            <div class="col-md-2">
-                <button class="btn btn-success w-100" @click="exportToGPX">Export to GPX</button>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="#">Best Biking Routes Explorer</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="filtersDropdown"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    >
+                        Filters
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="filtersDropdown">
+                        <button class="dropdown-item" @click="openModal('country')">
+                            Select Country
+                        </button>
+                        <button class="dropdown-item" @click="openModal('roadType')">
+                            Select Road Type
+                        </button>
+                        <button class="dropdown-item" @click="openModal('rating')">
+                            Select Rating
+                        </button>
+                    </div>
+                </li>
+            </ul>
+            <button class="btn btn-success my-2 my-sm-0" @click="exportToGPX">
+                Export to GPX
+            </button>
         </div>
     </nav>
     <!-- Map Section -->
@@ -71,10 +90,6 @@
                             :format="{ decimals: 1 }"
                             label="Rating Range"
                     ></Slider>
-                    <div class="slider-labels mt-2">
-                        <span>Min: {{ tempRatingRange[0].toFixed(1) }}</span>
-                        <span>Max: {{ tempRatingRange[1].toFixed(1) }}</span>
-                    </div>
                 </div>
                 <!-- Other Filters with Checkboxes -->
                 <div v-else>
