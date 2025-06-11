@@ -1,0 +1,77 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+        
+    - name: Fetch fresh biking roads data
+      run: |
+        go build main.go
+        ./main -out=./temp-data
+        
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Update website files and data
+      id: update-files
+      run: |
+        # Copy website files from master to gh-pages
+        cp website/index.html gh-pages/
+        cp -r website/css gh-pages/
+        cp -r website/js gh-pages/
+        
+        # Create data directory if it doesn't exist
+        mkdir -p gh-pages/data
+        
+        # Update data
+        cp -r temp-data/* gh-pages/data/
+        
+        # Check if there are any changes
+        cd gh-pages
+        if git diff --quiet && git diff --cached --quiet; then
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "No changes detected"
+        else
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "Changes detected"
+        fi
+        
+    - name: Commit and push changes
+      if: steps.update-files.outputs.changes == 'true'
+      run: |
+        cd gh-pages
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        git add .
+        git commit -m "🚀 Deploy website and update data - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+        git push origin gh-pages
+        
+    - name: Report status
+      run: |
+        if [ "${{ steps.update-files.outputs.changes }}" == "true" ]; then
+          echo "✅ Website and data deployed to GitHub Pages"
+        else
+          echo "ℹ️ No changes detected - skipping deployment"
+        fi
