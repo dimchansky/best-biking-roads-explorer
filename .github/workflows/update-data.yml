@@ -1,0 +1,79 @@
+name: Update Biking Roads Data
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+        
+    - name: Fetch biking roads data
+      run: |
+        go build main.go
+        ./main -out=./temp-data
+        
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Check for data changes
+      id: check-changes
+      run: |
+        # Create data directory if it doesn't exist
+        mkdir -p gh-pages/data
+        
+        # Check if there are any differences
+        if ! diff -r temp-data gh-pages/data > /dev/null 2>&1; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+          echo "Data changes detected"
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+          echo "No data changes detected"
+        fi
+        
+    - name: Update gh-pages with new data and website files
+      if: steps.check-changes.outputs.changes == 'true'
+      run: |
+        # Copy website files from master to gh-pages
+        cp index.html gh-pages/
+        cp -r css gh-pages/
+        cp -r js gh-pages/
+        
+        # Update data
+        cp -r temp-data/* gh-pages/data/
+        
+        # Configure git
+        cd gh-pages
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Add and commit changes
+        git add .
+        git commit -m "🤖 Update biking roads data - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+        git push origin gh-pages
+        
+    - name: Report status
+      run: |
+        if [ "${{ steps.check-changes.outputs.changes }}" == "true" ]; then
+          echo "✅ Data updated and deployed to GitHub Pages"
+        else
+          echo "ℹ️ No changes detected - skipping deployment"
+        fi
