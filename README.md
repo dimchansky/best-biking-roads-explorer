@@ -23,9 +23,10 @@
 
 ## How It Works
 
-1. **Data Acquisition:**
-    - All motorcycling routes are sourced from [BestBikingRoads.com](https://www.bestbikingroads.com/) using a dedicated utility written in Go (`main.go`) located in the root folder of the project.
-    - This utility fetches and processes the route data, making it ready for use within the application.
+1. **Automated Data Updates:**
+    - All motorcycling routes are sourced from [BestBikingRoads.com](https://www.bestbikingroads.com/) using a dedicated Go utility (`main.go`).
+    - Data is automatically updated daily via GitHub Actions to ensure you always have the latest routes.
+    - Fresh data is also fetched whenever the website is updated.
 
 2. **Using the Application:**
     - **Filtering Routes:**
@@ -39,6 +40,32 @@
     - **Exporting to GPX:**
         - After applying your desired filters, click the "Export to GPX" button.
         - Download the generated GPX file and import it into your navigation app to start your motorcycling journey with ease.
+
+## Development
+
+### Project Structure
+- **`master` branch**: Contains source code and automation
+  - `main.go` & `go.mod`: Go utility for data fetching
+  - `website/`: Website source files (`index.html`, `css/`, `js/`)
+  - `.github/workflows/`: Automated deployment and data update workflows
+- **`gh-pages` branch**: Deployed website with current data
+
+### Automated Workflows
+- **Deploy on commits**: When you push to `master`, the website is automatically deployed with fresh data
+- **Daily data updates**: Data is refreshed daily at 6 AM UTC, updating only if changes are detected
+- **Race condition prevention**: Workflows are queued to prevent conflicts
+
+### Manual Development
+```bash
+# Fetch data manually for testing
+go build main.go
+./main -out=./data
+
+# Website files are in the website/ directory
+# - website/index.html
+# - website/css/
+# - website/js/
+```
 
 ## Acknowledgements
 - Data sourced from [BestBikingRoads.com](https://www.bestbikingroads.com/).
